@@ -1,41 +1,73 @@
-const videoBtn = document.querySelector('.video-btn');
-const videoPicture = document.querySelector('.video-picture');
-const videoWrapper = document.querySelector('.video');
-const careVideo = document.querySelector('#video-file');
+//навігація по сайту
+document.addEventListener('DOMContentLoaded', function(){
+    const links = document.querySelectorAll('.nav-link');
+    
+    for (let i = 0; i<links.length; i++){
+        links[i].addEventListener('click', function(event) {
+            event.preventDefault();
 
-
-videoWrapper.addEventListener('click', function() {
-    if (careVideo.paused) {
-        videoPicture.classList.add('hidden');
-        videoWrapper.classList.remove('video-care');
-        videoBtn.classList.add('hidden');
-        careVideo.play();
-    } else {
-        videoPicture.classList.remove('hidden');
-        videoWrapper.classList.add('video-care');
-        videoBtn.classList.remove('hidden');
-        careVideo.pause();
+            const blockID = event.target.getAttribute('href').substr(1);
+            document.getElementById(blockID).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        });
     }
-   
 });
-const videoSecond = document.querySelector('.video-btn-second');
-const pictureSecond = document.querySelector('.video-picture-second');
-const wrapperSecond = document.querySelector('.video-second');
-const caresecondVideo = document.querySelector('#video-file-second');
+//відкрити відео
+const videoCare = document.querySelectorAll('.video');
+for(video of videoCare) {
+    video.addEventListener('click', function(){
+        const videoOpen = this.closest('.care-content-video'); 
+        const videoPicture = videoOpen.querySelector('.video-picture');
+        const careVideo = videoOpen.querySelector('.video-object');
+        const videoPlay = videoOpen.querySelector('.btnvideo');
+        if (careVideo.paused) {
+            videoPicture.style.display='none';
+            videoPlay.style.display='none';
+            careVideo.play();
+        } else {
+            videoPicture.style.display='block';
+            videoPlay.style.display='block';
+            careVideo.pause();
+            }
+    });
+};
+
+//для однієї кнопки коли використовуємо id
+// const recentlyDots = document.querySelector('#recently');
+// const recentlyMore = document.querySelector('#recent-more');
+// const showMore = document.querySelector('#show-more');
 
 
-wrapperSecond.addEventListener('click', function() {
-    console.log(videoWrapper)
-    if (caresecondVideo.paused) {
-        pictureSecond.classList.add('hidden');
-        wrapperSecond.classList.remove('video-care-second');
-        videoSecond.classList.add('hidden');
-        caresecondVideo.play();
-    } else {
-        pictureSecond.classList.remove('hidden');
-        wrapperSecond.classList.add('video-care-second');
-        videoSecond.classList.remove('hidden');
-        caresecondVideo.pause();
-    }
-   
-});
+// showMore.addEventListener('click', function(){
+//     if(recentlyDots.style.display === "none") {
+//         recentlyDots.style.display="inline";
+//         showMore.innerHTML="Read more+";
+//         recentlyMore.style.display = "none";
+//     }else {
+//         recentlyDots.style.display="none";
+//         showMore.innerHTML="Pull up";
+//         recentlyMore.style.display = "inline";
+//     }
+// })
+
+//для багатьох кнопок відкрити ще текст який схований
+const showBtns = document.querySelectorAll('.more');
+for(more of showBtns) {
+    more.addEventListener('click', function() {
+        const card = this.closest('.recent-card');
+        const recentlyDots = card.querySelector('.recently');
+        const recentlyMore = card.querySelector('.recent-more');
+
+        if(recentlyDots.style.display === "none") {
+            recentlyDots.style.display="inline";
+            recentlyMore.style.display = "none";
+            this.textContent = 'Read more+'
+        }else {
+            recentlyDots.style.display="none";
+            recentlyMore.style.display = "inline";
+            this.textContent = 'Pull up'
+            }
+    });
+}
